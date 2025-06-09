@@ -1,0 +1,201 @@
+from chatterbot import ChatBot
+from chatterbot.trainers import ListTrainer
+import spacy
+spacy.load('en_core_web_sm')
+# from spacy.lang.en import English
+from chatterbot.trainers import ChatterBotCorpusTrainer
+
+# Creating ChatBot Instance
+chatbot = ChatBot('<b>CAMPUS CONNECT/b>')
+
+# nlp = spacy.load("en_core_web_sm")
+
+chatbot = ChatBot(
+    'ChatBot for College Enquiry',
+    storage_adapter='chatterbot.storage.SQLStorageAdapter',
+    logic_adapters=[
+        {
+            'import_path': 'chatterbot.logic.BestMatch',
+            'default_response': "Hi there, Welcome to Campus Connect bot! 👋 If you need any assistance, I'm always here.Go ahead and write the number of any query. 😃✨<b><br><br>  Which of the following user groups do you belong to? <br><br>1.&emsp;Student's Section Enquiry.</br>2.&emsp;Faculty Section Enquiry. </br>3.&emsp;Parent's Section Enquiry.</br>4.&emsp;Visitor's Section Enquiry.</br><br>",
+            'maximum_similarity_threshold': 0.90
+        }
+    ],
+    database_uri='sqlite:///database.sqlite3'  
+)
+trainer = ListTrainer(chatbot)
+
+# python app.py
+# Training with Personal Ques & Ans 
+conversation = [
+"Hi",
+"Helloo!",
+"Hey",
+
+"How are you?",
+"I'm good.</br> <br>Go ahead and write the number of any query. 😃✨ <br> 1.&emsp;Student's Section Enquiry.</br>2.&emsp;Faculty Section Enquiry. </br>3.&emsp;Parent's Section Enquiry.</br>4.&emsp;Visitor's Section Enquiry.</br>",
+
+"Great",
+"Go ahead and write the number of any query. 😃✨ <br> 1.&emsp;Student's Section Enquiry.</br>2.&emsp;Faculty Section Enquiry. </br>3.&emsp;Parent's Section Enquiry.</br>4.&emsp;Visitor's Section Enquiry.</br>",
+
+"good",
+"Go ahead and write the number of any query. 😃✨ <br> 2.&emsp;Faculty Section Enquiry. </br>3.&emsp;Parent's Section Enquiry.</br>4.&emsp;Visitor's Section Enquiry.</br>",
+
+"fine",
+"Go ahead and write the number of any query. 😃✨ <br> 2.&emsp;Faculty Section Enquiry. </br>3.&emsp;Parent's Section Enquiry.</br>4.&emsp;Visitor's Section Enquiry.</br>",
+
+"Thank You",
+"Your Welcome 😄",
+
+"Thanks",
+"Your Welcome 😄",
+
+"Bye",
+"Thank You for visiting!..",
+
+"What do you do?",
+"I am made to give Information about our college.",
+
+"What else can you do?",
+"I can help you know more about college ",
+    
+    "1",
+    "<b>STUDENT <br>The following are frequently searched terms related to student . Please select one from the options below : <br> <br> 1.1 Curriculars <br>1.2  Extra-Curriculars<br>1.3  Administrative<br>1.4 Examination <br>1.5 Placements </b>",
+    
+    "1.1",
+    "<b>  CURRICULAR <br>  These are the top results: <br> <br> 1.1.1 Moodle <br> 1.1.2 Academic Calendar <br> 1.1.3 Syllabus </b>",
+    "1.1.1",
+    "<b> 1.1.1 Moodle <br>The link to Moodle 👉 <a href=" 'https://moodle.psgcas.ac.in/' ">Click Here</a> </b>",
+    "1.1.2",
+    "<b > 1.1.2 Academic Calender<br>The link to Academic Calender👉<a href=" 'https://drive.google.com/file/d/10I7fPak81mjs0DOvOD3kvASwZ-RtckBD/view?usp=drive_link' ">Click Here</a> </b>",
+    "1.1.3",
+    "<b> 1.1.3 Syllabus<br>The link to Syllabus 👉 <a href=" 'https://drive.google.com/file/d/10WE_c4NyPte0Co52Xb0B4rK78g6yldWb/view?usp=drive_link' ">Click Here</a> </b>",
+
+    "1.2",
+    "<b>EXTRA-CURRICULAR<br>These are the top results: <br> <br> 1.2.1 Events<br> 1.2.2 Student Chapters <br> 1.2.3 Student's Council</b>",
+    "1.2.1",
+    "<b > 1.2.1 Events<br>The link to Events👉 <a href=" 'https://drive.google.com/file/d/11oBm7zw1Ec81yBv2gPzvSAgOOoIzD5xC/view?usp=drive_link' ">Click Here</a></b>",
+    "1.2.2",
+    "<b > 1.2.2 clubs and forums<br>The link to Student Chapters👉<a href=" 'https://www.psgcas.ac.in/studentlife_clubs.html' ">Click Here</a> </b>",
+    "1.2.3",
+    "<b > 1.2.3 co-curricular activities<br>The link to Student's Council👉 <a href=" 'https://www.psgcas.ac.in/studentlife_cocurricular.html' ">Click Here</a> </b>",
+
+    "1.3",
+    "<b>1.3 ADMINISTRATIVE<br>These are the top results: <br> <br> 1.3.1 Students Portal<br> 1.3.2 Notices </b>",
+    "1.3.1",
+    "<b> 1.3.1 Students Portal<br>The link to Students Portal👉 <a href=" 'https://accounts.psgcas.ac.in/' ">Click Here</a> </b>",
+    "1.3.2",
+    "<b> 1.3.2 Notices<br>The link to Notices👉 <a href=" 'https://www.psgcas.ac.in' ">Click Here</a> </b>",
+
+    "1.4",
+    "<b > EXAMINATION <br>These are the top results:<br> 1.4.1 Notices<br> 1.4.2 Examination Process <br> 1.4.3 CA&CE </b>",
+    "1.4.1",
+    "<b > 1.4.1 Hallticket<br>The link to Notices👉 <a href=" 'https://www.psgcas.ac.in/exam_hallticket.html' ">Click Here</a> </b>",
+    "1.4.2",
+    "<b > 1.4.2 Examination Process<br>The link to Examination Process👉<a href=" 'https://www.psgcas.ac.in/exam_eval_system.html' ">Click Here</a> </b>",
+    "1.4.3",
+    "<b > 1.4.3 CA & CE<br>The link to Archives👉 <a href=" 'https://www.psgcas.ac.in/exam_ca_ce.html' ">Click Here</a> </b>",
+
+    "1.5",
+    "<b > PLACEMENTS These are the top results:<br> 1.5.1 Placements<br> 1.5.2 Our Recruiters <br> 1.5.3 Placement Statistics </b>",
+    "1.5.1",
+    "<b> 1.5.1 Placement proces<br>The link to Placements👉 <a href=" 'https://www.psgcas.ac.in/placements_process_new.html' ">Click Here</a> </b>",
+    "1.5.2",
+    "<b> 1.5.2 Our Recruiters<br>The link to Recruiters👉<a href=" 'https://www.psgcas.ac.in/placements_recruiters_new.html' ">Click Here</a> </b>",
+    "1.5.3",
+    "<b > 1.5.3 Placement Statistics<br>The link to Placement Statistics👉 <a href=" 'https://www.psgcas.ac.in/placements_statistics_new.html' ">Click Here</a> </b>",
+
+    "2",
+    "<b >FACULTY<br>The following are frequently searched terms related to faculty. Please select one from the options below :</br></br>2.1 Portals & Administration<br>2.2  Change Personal Details<br>2.3  Examination </b>",
+    
+    "2.1",
+    "<b > PORTALS & ADMINISTRATION These are the top results:<br> 2.1.1 Login<br>2.1.2 Moodle </b>",
+    "2.1.1",
+    "<b> 2.1.1 login portal<br>The link to login👉<a href=" 'https://accounts.psgcas.ac.in/' ">Click Here</a> </b>",
+    "2.1.2",
+    "<b> 2.1.2 Moodle<br>The link to Moodle👉<a href=" 'https://moodle.psgcas.ac.in/' ">Click Here</a> </b>",
+
+    "2.2",
+    "<b > CHANGE PERSONAL DETAILS These are the top results:<br> <br> 2.2.1 Site Login <br> </b>",
+    "2.2.1",
+    "<b> 2.2.1 Site Login<br>The link to Site Login👉<a href=" 'https://accounts.psgcas.ac.in/' ">Click Here</a> </b>",
+   
+    "2.3",
+    "<b > EXAMINATION <br>These are the top results:<br> <br> 2.3.1 Notices<br> 2.3.2 Question Paper pattern </b>",
+    "2.3.1",
+    "<b> 2.3.1 Notices <br>The link to Timetable 👉 <a href=" 'https://drive.google.com/file/d/10IQUIF5Jq2BOQuztVm2iTvT-nvHb2UKJ/view?usp=drive_link' ">Click Here</a> </b>",
+    "2.3.2",
+    "<b> 2.3.2 Question Paper pattern<br>The link to Archive👉<a href=" 'https://www.psgcas.ac.in' ">Click Here</a> </b>",
+  
+    "3",
+    "<b> PARENTS <br>The following are frequently searched terms related to Parents. Please select one from the options below : <br> <br> 3.1 About Us <br>3.2 Notices <br>3.3 Fee Payment <br>3.4 Placements </b> " ,
+
+    "3.1",
+    "<b > ABOUT US<br>These are the top results:<br> <br> 3.1.1 About CRCE<br> 3.1.2 Administration <br> 3.1.3 Faculty directory </b>",
+    "3.1.1",
+    "<b > 3.1.1 About us<br>The link to About CRCE👉 <a href=" 'https://www.psgcas.ac.in/about_psgcas.html' ">Click Here</a> </b>",
+    "3.1.2",
+    "<b > 3.1.2 Administration <br>The link to Administration👉<a href=" 'https://www.psgcas.ac.in/about_administration.html' ">Click Here</a> </b>",
+    "3.1.3",
+    "<b > 3.1.3 Faculty directory <br>The link to Faculty directory👉 <a href=" 'https://www.psgcas.ac.in/academics_faculty_directory.html' ">Click Here</a> </b>",
+
+    "3.2",
+    "<b > NOTICES<br>These are the top results:<br> <br> 3.2.1 All Notices  </b>",
+    "3.2.1",
+    "<b > 3.2.1 All Notices <br>The link to All Notices👉 <a href=" 'https://www.psgcas.ac.in' ">Click Here</a> </b>",
+
+    "3.3",
+    "<b > ABOUT US<br>These are the top results:<br> <br>3.3.1 Payment Details <br> 3.3.2 Online Payment Portal </b>",
+    "3.3.1",
+    "<b > 3.3.1 Payment Details<br>The link to Payment Details 👉 <a href=" 'https://psgdocs.psgtech.ac.in/laudea/docs/semester-fees-payment/ ' ">Click Here</a> </b>",
+    "3.3.2",
+    "<b > 3.3.2 Payment Portal <br>The link to Payment Portal👉<a href=" 'https://laudea.psgcas.ac.in/sis/#!/invoices' ">Click Here</a> </b>",
+
+    "3.4",
+    "<b > PLACEMENTS These are the top results:<br> <br>3.4.1 Placements<br> 3.4.2 Our Recruiters <br> 3.4.3 Placement Statistics </b>",
+    "3.4.1",
+    "<b> 3.4.1 Placements<br>Placements👉 <a href=" 'https://www.psgcas.ac.in/placements_process_new.html' ">Click Here</a> </b>",
+    "3.4.2",
+    "<b> 3.4.2 Our Recruiters<br>The link to Recruiters👉<a href=" 'https://www.psgcas.ac.in/placements_recruiters_new.html' ">Click Here</a> </b>",
+    "3.4.3",
+    "<b > 3.4.3 Placement Statistics<br>The link to Placement Statistics👉 <a href=" 'https://www.psgcas.ac.in/placements_statistics_new.html' ">Click Here</a> </b>",
+
+    "4",
+    "<b VISITORS <br>The following are frequently searched terms related to visitors. Please select one from the options below : <br> <br> 4.1 About Us<br>4.2 Programs We Offer <br>4.3 Student Bodies <br>4.4 Extra-Curricular </b>",
+    
+    "4.1",
+    "<b > ABOUT US<br>These are the top results:<br> <br>4.1.1 About us<br> 4.1.2 Administration <br> 4.1.3 faculty directory </b>",
+    "4.1.1",
+    "<b > 4.1.1 About us<br>The link to About us👉 <a href=" 'https://www.psgcas.ac.in/about_psgcas.html' ">Click Here</a> </b>",
+    "4.1.2",
+    "<b > 4.1.2 Administration <br>The link to Administration👉<a href=" 'https://www.psgcas.ac.in/about_administration.html' ">Click Here</a> </b>",
+    "4.1.3",
+    "<b > 4.1.3 Faculties <br>The link to faculty dirctory👉 <a href=" 'https://www.psgcas.ac.in/academics_faculty_directory.html' ">Click Here</a> </b>",
+
+    "4.2",
+    "<b > PROGRAMS WE OFFER <br>These are the top results:<br> <br>4.2.1 Aided <br> 4.2.2 Self financed<br> 4.2.3 Ph.D </b>",
+    "4.2.1",
+    "<b > 4.2.1 Aided programmes<br>The link to Under-Graduate & post graduate\👉 <a href=" 'https://drive.google.com/file/d/10RdpxYxTF66ki0wm-GZT-vPiIZiVncpP/view?usp=drive_link' ">Click Here</a> </b>",
+    "4.2.2",
+    "<b > 4.2.2 Self financed programmes <br>The link to Post-Graduate & under graduate👉<a href=" 'https://drive.google.com/file/d/10LpfslV1Q9107DP6u-k83OZ0Ubat7JNR/view?usp=drive_link' ">Click Here</a> </b>",
+    "4.2.3",
+    "<b > 4.2.3 Ph.D <br>The link to Ph.D👉 <a href=" 'https://www.psgcas.ac.in/academics_research_programmes.html' ">Click Here</a> </b>",
+
+    "4.3",
+    "<b > STUDENT BODIES <br>These are the top results:<br> <br>4.3.1 Students Council  <br> 4.3.2 Students Chapter <br> 4.3.3 Students life </b>",
+    "4.3.1",
+    "<b > 4.3.1 Students Council  <br>The link to Students Council  👉 <a href=" 'https://www.psgcas.ac.in/studentlife_associations.html' ">Click Here</a> </b>",
+    "4.3.2",
+    "<b > 4.3.2 Students Chapter <br>The link to Students Chapter 👉<a href=" 'https://www.psgcas.ac.in/studentlife_clubs.html' ">Click Here</a> </b>",
+    "4.3.3",
+    "<b > 4.3.3 Students Life <br>The link to Students life👉 <a href=" 'https://www.psgcas.ac.in/studentlife_casian.html' ">Click Here</a> </b>",
+
+    "4.4",
+    "<b > EXTRA-CURRICULAR <br>These are the top results:<br> <br>4.4.1 Events  <br> 4.4.2 Institute Innovation Cell </b>",
+    "4.4.1",
+    "<b > 4.4.1 Events    <br>The link to Events   👉 <a href=" 'https://drive.google.com/file/d/11oBm7zw1Ec81yBv2gPzvSAgOOoIzD5xC/view?usp=drive_link' ">Click Here</a> </b>",
+    "4.4.2",
+    "<b > 4.4.2 CBCS <br>The link to CBCS 👉<a href=" 'https://www.psgcas.ac.in/exam_cbcs.html' ">Click Here</a> </b>",
+
+]
+
+trainer.train(conversation)
